@@ -6,150 +6,173 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="VoiceLapor">
   <meta name="theme-color" content="#4f46e5">
-  <title>VoiceLapor</title>
+  <title>VoiceLapor v4</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --indigo: #4f46e5; --indigo-dk: #3730a3; --indigo-lt: #eef2ff;
-      --red: #ef4444; --red-lt: #fef2f2;
-      --green: #10b981; --amber-lt: #fffbeb;
-      --bg: #f0f4ff; --card: #fff;
-      --text: #111827; --text2: #6b7280; --text3: #9ca3af;
-      --border: #e5e7eb;
-      --sh: 0 2px 8px rgba(79,70,229,.08);
-      --sh-lg: 0 8px 24px rgba(0,0,0,.12);
-      --r: 14px; --r-sm: 10px;
+      --indigo:#4f46e5; --indigo-dk:#3730a3; --indigo-lt:#eef2ff;
+      --red:#ef4444;    --red-lt:#fef2f2;
+      --green:#10b981;  --green-dk:#059669;
+      --amber-lt:#fffbeb;
+      --ai:#7c3aed;     --ai-lt:#f5f3ff;
+      --bg:#f0f4ff; --card:#fff;
+      --text:#111827; --text2:#6b7280; --text3:#9ca3af; --border:#e5e7eb;
+      --sh:0 2px 8px rgba(79,70,229,.08);
+      --sh-lg:0 8px 24px rgba(0,0,0,.12);
+      --r:14px; --r-sm:10px;
     }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; -webkit-font-smoothing:antialiased; }
 
-    /* HEADER */
-    header { background: linear-gradient(135deg, var(--indigo), var(--indigo-dk)); color: #fff; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(79,70,229,.35); }
-    .hdr { max-width: 660px; margin: 0 auto; padding: 0 16px; height: 54px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-size: 19px; font-weight: 800; }
-    .logo small { opacity: .65; font-weight: 400; font-size: 12px; margin-left: 6px; }
-    .chip { background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.3); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; display: none; }
-    .chip.on { display: inline-block; }
+    /* ── HEADER ── */
+    header { background:linear-gradient(135deg,var(--indigo),var(--indigo-dk)); color:#fff; position:sticky; top:0; z-index:100; box-shadow:0 2px 12px rgba(79,70,229,.35); }
+    .hdr { max-width:660px; margin:0 auto; padding:0 14px; height:54px; display:flex; align-items:center; justify-content:space-between; }
+    .logo { font-size:18px; font-weight:800; }
+    .logo small { opacity:.6; font-weight:400; font-size:11px; margin-left:5px; }
+    .hdr-right { display:flex; align-items:center; gap:8px; }
+    .chip { background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.35); color:#fff; font-size:11px; font-weight:700; padding:2px 9px; border-radius:20px; display:none; }
+    .chip.on { display:inline-block; }
+    .icon-btn { background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.25); color:#fff; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; transition:background .15s; }
+    .icon-btn:hover { background:rgba(255,255,255,.25); }
 
-    /* NAV */
-    nav { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 54px; z-index: 99; }
-    .tabs { max-width: 660px; margin: 0 auto; display: flex; }
-    .tab { flex: 1; padding: 13px 8px; text-align: center; font-size: 13px; font-weight: 700; color: var(--text2); cursor: pointer; border-bottom: 2.5px solid transparent; transition: color .2s, border-color .2s; user-select: none; -webkit-tap-highlight-color: transparent; }
-    .tab.active { color: var(--indigo); border-bottom-color: var(--indigo); }
+    /* ── TABS ── */
+    nav { background:#fff; border-bottom:1px solid var(--border); position:sticky; top:54px; z-index:99; }
+    .tabs { max-width:660px; margin:0 auto; display:flex; }
+    .tab { flex:1; padding:13px 8px; text-align:center; font-size:13px; font-weight:700; color:var(--text2); cursor:pointer; border-bottom:2.5px solid transparent; transition:color .2s,border-color .2s; user-select:none; -webkit-tap-highlight-color:transparent; }
+    .tab.active { color:var(--indigo); border-bottom-color:var(--indigo); }
 
-    /* LAYOUT */
-    main { max-width: 660px; margin: 0 auto; padding: 18px 16px 100px; }
-    .page { display: none; }
-    .page.active { display: block; }
+    /* ── LAYOUT ── */
+    main { max-width:660px; margin:0 auto; padding:18px 16px 100px; }
+    .page { display:none; }
+    .page.active { display:block; }
 
-    /* CARD */
-    .card { background: var(--card); border-radius: var(--r); border: 1px solid var(--border); box-shadow: var(--sh); padding: 20px; margin-bottom: 14px; }
-    .clabel { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); margin-bottom: 14px; }
+    /* ── CARD ── */
+    .card { background:var(--card); border-radius:var(--r); border:1px solid var(--border); box-shadow:var(--sh); padding:20px; margin-bottom:14px; }
+    .clabel { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:var(--text3); margin-bottom:14px; }
 
-    /* ALERTS */
-    .alert { border-radius: var(--r-sm); padding: 14px 16px; font-size: 13.5px; line-height: 1.65; margin-bottom: 14px; display: none; }
-    .alert.on { display: block; }
-    .alert b { display: block; margin-bottom: 5px; }
-    .a-warn { background: var(--amber-lt); border: 1.5px solid #fde68a; color: #78350f; }
-    .a-err  { background: var(--red-lt);   border: 1.5px solid #fecaca; color: #991b1b; }
+    /* ── ALERTS ── */
+    .alert { border-radius:var(--r-sm); padding:13px 16px; font-size:13.5px; line-height:1.65; margin-bottom:14px; display:none; }
+    .alert.on { display:block; }
+    .alert b { display:block; margin-bottom:4px; }
+    .a-warn { background:var(--amber-lt); border:1.5px solid #fde68a; color:#78350f; }
+    .a-err  { background:var(--red-lt);   border:1.5px solid #fecaca; color:#991b1b; }
 
-    /* RECORD BUTTON */
-    .rec-area { display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 12px 0 6px; }
-    .btn-wrap { position: relative; width: 136px; height: 136px; display: flex; align-items: center; justify-content: center; }
-    .ring { position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid rgba(239,68,68,.35); opacity: 0; pointer-events: none; }
-    .ring.pulse { animation: sonar 1.6s ease-out infinite; }
-    .ring:nth-child(2).pulse { animation-delay: .53s; }
-    .ring:nth-child(3).pulse { animation-delay: 1.06s; }
-    @keyframes sonar { 0% { transform: scale(.78); opacity: .7; } 100% { transform: scale(1.45); opacity: 0; } }
-    .rec-btn { width: 108px; height: 108px; border-radius: 50%; border: none; background: var(--indigo); color: #fff; font-size: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px rgba(79,70,229,.45); transition: transform .12s, box-shadow .2s, background .2s; position: relative; z-index: 1; -webkit-tap-highlight-color: transparent; }
-    .rec-btn.on { background: var(--red); box-shadow: 0 6px 24px rgba(239,68,68,.45); }
-    .rec-btn:active { transform: scale(.93); }
-    .timer { font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 2px; color: var(--red); visibility: hidden; }
-    .timer.on { visibility: visible; }
-    .rec-hint { font-size: 13px; color: var(--text2); text-align: center; line-height: 1.5; }
+    /* ── RECORD ── */
+    .rec-area { display:flex; flex-direction:column; align-items:center; gap:16px; padding:10px 0 4px; }
+    .btn-wrap { position:relative; width:136px; height:136px; display:flex; align-items:center; justify-content:center; }
+    .ring { position:absolute; inset:0; border-radius:50%; border:1.5px solid rgba(239,68,68,.35); opacity:0; pointer-events:none; }
+    .ring.pulse { animation:sonar 1.6s ease-out infinite; }
+    .ring:nth-child(2).pulse { animation-delay:.53s; }
+    .ring:nth-child(3).pulse { animation-delay:1.06s; }
+    @keyframes sonar { 0%{transform:scale(.78);opacity:.7} 100%{transform:scale(1.45);opacity:0} }
+    .rec-btn { width:108px; height:108px; border-radius:50%; border:none; background:var(--indigo); color:#fff; font-size:40px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 24px rgba(79,70,229,.45); transition:transform .12s,box-shadow .2s,background .2s; position:relative; z-index:1; -webkit-tap-highlight-color:transparent; }
+    .rec-btn.on { background:var(--red); box-shadow:0 6px 24px rgba(239,68,68,.45); }
+    .rec-btn:active { transform:scale(.93); }
+    .timer { font-size:32px; font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:2px; color:var(--red); visibility:hidden; }
+    .timer.on { visibility:visible; }
+    .rec-hint { font-size:13px; color:var(--text2); text-align:center; line-height:1.5; }
 
-    /* TRANSCRIPT */
-    .tbox { min-height: 90px; background: #f9fafb; border: 1.5px solid var(--border); border-radius: var(--r-sm); padding: 14px; font-size: 15px; line-height: 1.8; color: var(--text); word-break: break-word; }
-    .ph    { color: var(--text3); font-style: italic; }
-    .itext { color: #a5b4fc; }   /* ← interim teks berwarna ungu muda */
+    /* ── TRANSCRIPT ── */
+    .tbox { min-height:90px; background:#f9fafb; border:1.5px solid var(--border); border-radius:var(--r-sm); padding:14px; font-size:15px; line-height:1.8; color:var(--text); word-break:break-word; }
+    .ph    { color:var(--text3); font-style:italic; }
+    .itext { color:#a5b4fc; }
+    .wcount { font-size:11px; color:var(--text3); margin-top:8px; text-align:right; }
+    .wcount b { background:var(--indigo-lt); color:var(--indigo); font-weight:700; padding:1px 7px; border-radius:10px; }
 
-    /* WORD COUNT */
-    .wcount { font-size: 11px; color: var(--text3); margin-top: 8px; text-align: right; }
-    .wcount span { background: var(--indigo-lt); color: var(--indigo); font-weight: 700; padding: 1px 7px; border-radius: 10px; }
+    /* ── SAVE SECTION ── */
+    .savesec { display:none; }
+    .savesec.on { display:block; }
+    .ios-block { display:none; }
 
-    /* SAVE SECTION */
-    .savesec { display: none; }
-    .savesec.on { display: block; }
-    .ios-block { display: none; }
+    /* ── AI BANNER ── */
+    .ai-banner { background:var(--ai-lt); border:1.5px solid #ddd6fe; border-radius:var(--r-sm); padding:14px 16px; margin-bottom:10px; }
+    .ai-banner-title { font-size:13px; font-weight:700; color:var(--ai); margin-bottom:4px; }
+    .ai-banner-desc  { font-size:12.5px; color:#5b21b6; line-height:1.5; }
 
-    /* FORM */
-    .field { margin-bottom: 14px; }
-    .flabel { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--text2); margin-bottom: 6px; }
-    .finput, .farea { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--r-sm); font-size: 15px; font-family: inherit; color: var(--text); background: #fff; outline: none; transition: border-color .15s; }
-    .finput:focus, .farea:focus { border-color: var(--indigo); }
-    .farea { resize: vertical; line-height: 1.7; min-height: 130px; }
-    .farea.tall { min-height: 200px; }
+    /* ── SPINNER ── */
+    .spin-row { display:flex; align-items:center; gap:10px; padding:12px 0; justify-content:center; }
+    .spinner  { width:22px; height:22px; border:2.5px solid #ddd6fe; border-top-color:var(--ai); border-radius:50%; animation:spin .7s linear infinite; flex-shrink:0; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .spin-label { font-size:13px; font-weight:600; color:var(--ai); }
 
-    /* BUTTONS */
-    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: var(--r-sm); border: none; font-size: 13.5px; font-weight: 700; cursor: pointer; transition: filter .15s, transform .1s; -webkit-tap-highlight-color: transparent; white-space: nowrap; font-family: inherit; }
-    .btn:active { transform: scale(.96); }
-    .btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-    .btn:not(:disabled):hover { filter: brightness(.91); }
-    .btn-full { width: 100%; justify-content: center; }
-    .btn-i  { background: var(--indigo); color: #fff; }
-    .btn-g  { background: var(--green);  color: #fff; }
-    .btn-r  { background: var(--red-lt); color: var(--red); border: 1.5px solid #fecaca; }
-    .btn-gr { background: #f3f4f6; color: var(--text2); border: 1.5px solid var(--border); }
-    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    /* ── FORM ── */
+    .field { margin-bottom:13px; }
+    .flabel { display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--text2); margin-bottom:6px; }
+    .finput,.farea { width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:var(--r-sm); font-size:15px; font-family:inherit; color:var(--text); background:#fff; outline:none; transition:border-color .15s; }
+    .finput:focus,.farea:focus { border-color:var(--indigo); }
+    .farea { resize:vertical; line-height:1.7; min-height:130px; }
+    .farea.tall { min-height:200px; }
+    input[type=password].finput { letter-spacing:.1em; }
 
-    /* SEARCH & LIST */
-    .sw { position: relative; margin-bottom: 14px; }
-    .sw span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 15px; pointer-events: none; }
-    .sinput { width: 100%; padding: 11px 14px 11px 38px; border: 1.5px solid var(--border); border-radius: var(--r-sm); font-size: 14px; font-family: inherit; background: #fff; outline: none; transition: border-color .15s; }
-    .sinput:focus { border-color: var(--indigo); }
-    .rcard { background: #fff; border: 1.5px solid var(--border); border-radius: var(--r); padding: 16px; margin-bottom: 10px; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .1s; -webkit-tap-highlight-color: transparent; }
-    .rcard:hover  { border-color: var(--indigo); box-shadow: 0 2px 12px rgba(79,70,229,.1); }
-    .rcard:active { transform: scale(.99); }
-    .rc-title   { font-weight: 700; font-size: 15px; color: var(--text); margin-bottom: 5px; }
-    .rc-preview { font-size: 13px; color: var(--text2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.5; margin-bottom: 8px; }
-    .rc-meta    { font-size: 11px; color: var(--text3); display: flex; align-items: center; gap: 10px; }
-    .wbadge { background: var(--indigo-lt); color: var(--indigo); padding: 1px 8px; border-radius: 20px; font-weight: 700; }
-    .empty { text-align: center; padding: 56px 24px; color: var(--text3); }
-    .empty-ico { font-size: 52px; margin-bottom: 14px; }
-    .empty-msg { font-size: 15px; color: var(--text2); }
-    .empty-sub { font-size: 13px; margin-top: 6px; }
+    /* ── BUTTONS ── */
+    .btn { display:inline-flex; align-items:center; gap:6px; padding:10px 18px; border-radius:var(--r-sm); border:none; font-size:13.5px; font-weight:700; cursor:pointer; transition:filter .15s,transform .1s; -webkit-tap-highlight-color:transparent; white-space:nowrap; font-family:inherit; }
+    .btn:active { transform:scale(.96); }
+    .btn:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+    .btn:not(:disabled):hover { filter:brightness(.91); }
+    .btn-full { width:100%; justify-content:center; }
+    .btn-i  { background:var(--indigo); color:#fff; }
+    .btn-g  { background:var(--green);  color:#fff; }
+    .btn-ai { background:var(--ai);     color:#fff; }
+    .btn-r  { background:var(--red-lt); color:var(--red); border:1.5px solid #fecaca; }
+    .btn-gr { background:#f3f4f6; color:var(--text2); border:1.5px solid var(--border); }
+    .btn-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
 
-    /* MODAL */
-    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(2px); z-index: 200; display: none; align-items: flex-start; justify-content: center; padding: 20px; overflow-y: auto; }
-    .overlay.on { display: flex; }
-    .modal { background: #fff; border-radius: 20px; width: 100%; max-width: 620px; padding: 24px; margin: 40px 0; box-shadow: var(--sh-lg); }
-    .mhead { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .mttl { font-size: 18px; font-weight: 800; }
-    .xbtn { width: 32px; height: 32px; border-radius: 50%; border: none; background: #f3f4f6; cursor: pointer; font-size: 17px; display: flex; align-items: center; justify-content: center; color: var(--text2); }
-    .xbtn:hover { background: var(--border); }
+    /* ── SEARCH & LIST ── */
+    .sw { position:relative; margin-bottom:14px; }
+    .sw span { position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:15px; pointer-events:none; }
+    .sinput { width:100%; padding:11px 14px 11px 38px; border:1.5px solid var(--border); border-radius:var(--r-sm); font-size:14px; font-family:inherit; background:#fff; outline:none; transition:border-color .15s; }
+    .sinput:focus { border-color:var(--indigo); }
+    .rcard { background:#fff; border:1.5px solid var(--border); border-radius:var(--r); padding:16px; margin-bottom:10px; cursor:pointer; transition:border-color .15s,box-shadow .15s,transform .1s; -webkit-tap-highlight-color:transparent; }
+    .rcard:hover { border-color:var(--indigo); box-shadow:0 2px 12px rgba(79,70,229,.1); }
+    .rcard:active { transform:scale(.99); }
+    .notulen-badge { display:inline-block; background:var(--ai-lt); color:var(--ai); font-size:10px; font-weight:700; padding:1px 7px; border-radius:20px; margin-bottom:5px; }
+    .rc-title   { font-weight:700; font-size:15px; color:var(--text); margin-bottom:5px; }
+    .rc-preview { font-size:13px; color:var(--text2); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; line-height:1.5; margin-bottom:8px; }
+    .rc-meta    { font-size:11px; color:var(--text3); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .wbadge { background:var(--indigo-lt); color:var(--indigo); padding:1px 8px; border-radius:20px; font-weight:700; }
+    .empty { text-align:center; padding:56px 24px; color:var(--text3); }
+    .empty-ico { font-size:52px; margin-bottom:14px; }
+    .empty-msg { font-size:15px; color:var(--text2); }
+    .empty-sub { font-size:13px; margin-top:6px; }
 
-    /* TOAST */
-    .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(90px); background: #1f2937; color: #fff; padding: 11px 22px; border-radius: 100px; font-size: 14px; font-weight: 500; z-index: 400; pointer-events: none; white-space: nowrap; box-shadow: var(--sh-lg); transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
-    .toast.on { transform: translateX(-50%) translateY(0); }
+    /* ── MODALS ── */
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,.5); backdrop-filter:blur(2px); z-index:200; display:none; align-items:flex-start; justify-content:center; padding:20px; overflow-y:auto; }
+    .overlay.on { display:flex; }
+    .modal { background:#fff; border-radius:20px; width:100%; max-width:620px; padding:24px; margin:40px 0; box-shadow:var(--sh-lg); }
+    .mhead { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+    .mttl { font-size:18px; font-weight:800; }
+    .xbtn { width:32px; height:32px; border-radius:50%; border:none; background:#f3f4f6; cursor:pointer; font-size:17px; display:flex; align-items:center; justify-content:center; color:var(--text2); transition:background .15s; }
+    .xbtn:hover { background:var(--border); }
+    .api-note { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:var(--r-sm); padding:12px 14px; font-size:12.5px; color:#14532d; line-height:1.6; margin-top:10px; }
+    .api-note a { color:#16a34a; }
 
-    /* TIPS */
-    .tips { background: var(--indigo-lt); border: 1px solid #c7d2fe; border-radius: var(--r-sm); padding: 14px 16px; font-size: 13px; color: #3730a3; }
-    .tips strong { display: block; margin-bottom: 8px; font-size: 11px; text-transform: uppercase; letter-spacing: .7px; }
-    .tips ul { list-style: none; }
-    .tips li { padding: 3px 0; }
-    .tips li::before { content: "›  "; font-weight: 800; }
+    /* ── TOAST ── */
+    .toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(90px); background:#1f2937; color:#fff; padding:11px 22px; border-radius:100px; font-size:14px; font-weight:500; z-index:400; pointer-events:none; white-space:nowrap; box-shadow:var(--sh-lg); transition:transform .3s cubic-bezier(.34,1.56,.64,1); }
+    .toast.on { transform:translateX(-50%) translateY(0); }
 
-    @media (max-width: 400px) { .btn { font-size: 12.5px; padding: 9px 14px; } .modal { padding: 18px; } .rec-btn { width: 96px; height: 96px; font-size: 36px; } }
+    /* ── TIPS ── */
+    .tips { background:var(--indigo-lt); border:1px solid #c7d2fe; border-radius:var(--r-sm); padding:14px 16px; font-size:13px; color:#3730a3; }
+    .tips strong { display:block; margin-bottom:8px; font-size:11px; text-transform:uppercase; letter-spacing:.7px; }
+    .tips ul { list-style:none; }
+    .tips li { padding:3px 0; }
+    .tips li::before { content:"›  "; font-weight:800; }
+
+    @media(max-width:400px){ .btn{font-size:12.5px;padding:9px 14px} .modal{padding:18px} .rec-btn{width:96px;height:96px;font-size:36px} }
   </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
   <div class="hdr">
-    <span class="logo">🎙️ VoiceLapor <small>Bahasa Indonesia</small></span>
-    <span class="chip" id="chip">0 laporan</span>
+    <span class="logo">🎙️ VoiceLapor <small>v4</small></span>
+    <div class="hdr-right">
+      <span class="chip" id="chip"></span>
+      <div class="icon-btn" onclick="openSettings()" title="Pengaturan API Key">⚙️</div>
+    </div>
   </div>
 </header>
 
+<!-- TABS -->
 <nav>
   <div class="tabs">
     <div class="tab active" id="tab-rekam"   onclick="goTo('rekam')">🎤 Rekam</div>
@@ -158,16 +181,16 @@
 </nav>
 
 <main>
-  <!-- PAGE REKAM -->
+  <!-- ══ PAGE REKAM ══ -->
   <div class="page active" id="page-rekam">
+
     <div class="alert a-warn" id="aIOS">
       <b>⚠️ iPhone / iPad terdeteksi</b>
-      Safari iOS tidak mendukung rekam suara otomatis lewat browser.<br>
-      <b>Cara pakai:</b> Ketuk kolom teks di bawah → tap 🎤 di keyboard → dikte Bahasa Indonesia → tap <b>"Gunakan Teks Ini"</b>
+      Rekam otomatis tidak tersedia di iOS. Gunakan kolom teks di bawah → ketuk 🎤 di keyboard → dikte → tap <b>"Gunakan Teks Ini"</b>. Semua fitur lainnya tetap bisa digunakan.
     </div>
-    <div class="alert a-warn" id="aNoSupport">
-      <b>⚠️ Browser Tidak Kompatibel</b>
-      Gunakan <b>Google Chrome</b> atau <b>Microsoft Edge</b> untuk rekam otomatis.
+    <div class="alert a-warn" id="aNoSup">
+      <b>⚠️ Browser tidak mendukung</b>
+      Gunakan <b>Google Chrome</b> atau <b>Microsoft Edge</b> untuk rekam suara otomatis.
     </div>
     <div class="alert a-err" id="aErr"></div>
 
@@ -182,15 +205,15 @@
           <button class="rec-btn" id="recBtn" onclick="toggleRec()">🎤</button>
         </div>
         <div class="timer" id="timerEl">00:00</div>
-        <div class="rec-hint" id="hintEl">Ketuk tombol untuk mulai merekam<br>Bicara dalam Bahasa Indonesia</div>
+        <div class="rec-hint" id="hintEl">Ketuk untuk mulai merekam<br>Bicara dalam Bahasa Indonesia</div>
       </div>
     </div>
 
-    <!-- iOS input -->
+    <!-- iOS manual -->
     <div class="card ios-block" id="cardIOS">
-      <div class="clabel">Dikte / Ketik Manual</div>
+      <div class="clabel">Dikte / Ketik Manual (iPhone/iPad)</div>
       <textarea class="farea" id="iosTA" rows="6"
-        placeholder="Ketuk di sini → tekan 🎤 di keyboard → bicara Bahasa Indonesia...&#10;&#10;Atau ketik manual."></textarea>
+        placeholder="Ketuk di sini → tekan 🎤 di keyboard iOS → bicara Bahasa Indonesia...&#10;&#10;Atau ketik/paste teks langsung."></textarea>
       <button class="btn btn-i btn-full" onclick="useIOS()" style="margin-top:12px">✅ Gunakan Teks Ini</button>
     </div>
 
@@ -203,53 +226,76 @@
       <div class="wcount" id="wcount"></div>
       <div class="btn-row">
         <button class="btn btn-gr" onclick="clearAll()">🗑️ Hapus</button>
-        <button class="btn btn-gr" onclick="copyT()">📋 Salin Teks</button>
+        <button class="btn btn-gr" onclick="copyT()">📋 Salin</button>
       </div>
     </div>
 
-    <!-- Simpan -->
+    <!-- Simpan & AI -->
     <div class="card savesec" id="saveSec">
       <div class="clabel">Simpan sebagai Laporan</div>
+
+      <!-- Banner fitur AI notulen -->
+      <div class="ai-banner">
+        <div class="ai-banner-title">✨ Fitur AI: Ubah Transkrip → Notulen Profesional</div>
+        <div class="ai-banner-desc">
+          Klik tombol ungu di bawah untuk mengubah transkrip berantakan menjadi notulen rapat yang terstruktur dan profesional menggunakan AI.<br>
+          Perlu API Key Anthropic — atur di ⚙️ di pojok kanan atas.
+        </div>
+      </div>
+
       <div class="field">
         <label class="flabel">Judul Laporan</label>
-        <input type="text" class="finput" id="sTitle" placeholder="Contoh: Rapat Tim — 15 Juni 2025">
+        <input type="text" class="finput" id="sTitle" placeholder="Contoh: Rapat Tim 15 Juni 2025">
       </div>
       <div class="field">
-        <label class="flabel">Isi Laporan <span style="font-weight:400;text-transform:none;letter-spacing:0">(bisa diedit)</span></label>
+        <label class="flabel">Isi / Transkripsi <span style="font-weight:400;text-transform:none;letter-spacing:0">(bisa diedit)</span></label>
         <textarea class="farea" id="sContent"></textarea>
       </div>
-      <button class="btn btn-g btn-full" onclick="saveRep()">💾 Simpan Laporan</button>
+
+      <!-- Tombol AI dan simpan -->
+      <button class="btn btn-ai btn-full" id="btnAI" onclick="buatNotulen()">✨ Ubah Jadi Notulen Profesional (AI)</button>
+
+      <!-- Loading state -->
+      <div id="loadingAI" style="display:none">
+        <div class="spin-row">
+          <div class="spinner"></div>
+          <span class="spin-label">AI sedang memformat notulen... mohon tunggu</span>
+        </div>
+      </div>
+
+      <div style="margin-top:10px">
+        <button class="btn btn-g btn-full" onclick="saveRep()">💾 Simpan Laporan</button>
+      </div>
     </div>
 
     <div class="tips">
-      <strong>💡 Tips Perekaman</strong>
+      <strong>💡 Tips</strong>
       <ul>
-        <li>Koneksi internet <b>harus aktif</b> saat merekam</li>
+        <li>Koneksi internet harus aktif saat merekam</li>
         <li>Bicara <b>jelas dan wajar</b> dalam Bahasa Indonesia</li>
-        <li>Rekam di tempat yang <b>tenang</b></li>
-        <li>Durasi maks <b>5 menit</b> per sesi — bisa rekam ulang</li>
-        <li>Teks abu-abu = sedang diproses, putih = sudah dikonfirmasi</li>
+        <li>Teks <b>abu muda</b> = sedang diproses | <b>putih</b> = sudah dikonfirmasi</li>
+        <li>Untuk notulen AI: atur API Key di ⚙️ lalu klik tombol ungu</li>
+        <li>Notulen AI hanya memakai info dari transkripmu — tidak mengarang</li>
       </ul>
     </div>
   </div>
 
-  <!-- PAGE LAPORAN -->
+  <!-- ══ PAGE LAPORAN ══ -->
   <div class="page" id="page-laporan">
     <div class="sw">
       <span>🔍</span>
-      <input type="text" class="sinput" id="sInput"
-        placeholder="Cari laporan..." oninput="renderList()">
+      <input type="text" class="sinput" id="sInput" placeholder="Cari laporan..." oninput="renderList()">
     </div>
     <div id="rList"></div>
   </div>
 </main>
 
-<!-- MODAL -->
-<div class="overlay" id="overlay" onclick="bgClose(event)">
+<!-- MODAL: Detail laporan -->
+<div class="overlay" id="ovDetail" onclick="bgClose('ovDetail',event)">
   <div class="modal">
     <div class="mhead">
       <span class="mttl">Detail Laporan</span>
-      <button class="xbtn" onclick="closeModal()">✕</button>
+      <button class="xbtn" onclick="closeOv('ovDetail')">✕</button>
     </div>
     <div class="field">
       <label class="flabel">Judul</label>
@@ -264,10 +310,36 @@
       <textarea class="farea tall" id="mContent"></textarea>
     </div>
     <div class="btn-row">
-      <button class="btn btn-g"  onclick="saveEdit()">💾 Simpan Perubahan</button>
+      <button class="btn btn-g"  onclick="saveEdit()">💾 Simpan</button>
       <button class="btn btn-i"  onclick="copyM()">📋 Salin</button>
-      <button class="btn btn-gr" onclick="dlM()">⬇️ Unduh .txt</button>
+      <button class="btn btn-gr" onclick="dlM()">⬇️ Unduh</button>
       <button class="btn btn-r"  onclick="delM()">🗑️ Hapus</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Pengaturan API Key -->
+<div class="overlay" id="ovSettings" onclick="bgClose('ovSettings',event)">
+  <div class="modal">
+    <div class="mhead">
+      <span class="mttl">⚙️ Pengaturan API Key</span>
+      <button class="xbtn" onclick="closeOv('ovSettings')">✕</button>
+    </div>
+    <div class="field">
+      <label class="flabel">Anthropic API Key</label>
+      <input type="password" class="finput" id="apiKeyInput" placeholder="sk-ant-api03-...">
+      <div class="api-note">
+        <b>🔑 Cara mendapatkan API Key gratis:</b><br>
+        1. Buka <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a><br>
+        2. Daftar / login<br>
+        3. Klik <b>API Keys</b> → <b>Create Key</b><br>
+        4. Salin key dan paste di atas<br><br>
+        <b>🔒 Aman:</b> Key disimpan hanya di browser kamu dan hanya dikirim langsung ke Anthropic — tidak ke server manapun.
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-g btn-full" onclick="saveApiKey()">💾 Simpan API Key</button>
+      <button class="btn btn-r" onclick="clearApiKey()">🗑️ Hapus Key</button>
     </div>
   </div>
 </div>
@@ -275,233 +347,234 @@
 <div class="toast" id="toast"></div>
 
 <script>
-/* ════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    STATE
-   PERBAIKAN UTAMA: gunakan array sesi terpisah, BUKAN +=
-   Ini mencegah akumulasi ribuan kata yang salah
-════════════════════════════════════════════════════════ */
-var recog        = null;
-var isRec        = false;
-var timerRef     = null;
-var secs         = 0;
+══════════════════════════════════════════════════════════ */
+var recog     = null;
+var isRec     = false;
+var timerRef  = null;
+var secs      = 0;
 
-/* ── Manajemen teks multi-sesi (KUNCI PERBAIKAN) ── */
-var pastSessions  = [];   // Teks dari sesi yang sudah selesai
-var curSession    = '';   // Teks yang sedang dibangun sesi ini (dibangun ulang, BUKAN +=)
-var interimTxt    = '';   // Teks sementara (belum dikonfirmasi)
+/*
+ * PERBAIKAN BUG BERGANDA:
+ *
+ * Bug sebelumnya: onresult dari sesi lama masih berjalan setelah
+ * onend lalu menambahkan teks lagi ke dalam allText → berganda.
+ *
+ * Solusi: flag `listening`.
+ *   - listening = TRUE hanya tepat setelah recog.start() dipanggil
+ *   - listening = FALSE saat onend muncul
+ *   - onresult akan DIABAIKAN jika listening = FALSE
+ *   - Sehingga event "basi" dari sesi lama tidak pernah masuk
+ */
+var listening  = false;
 
-var activeID  = null;
-var isIOS     = false;
-var hasSpeech = false;
-var KEY       = 'vl_v1';
+var allText    = '';   /* Teks dari semua frasa yang sudah selesai */
+var curPhrase  = '';   /* Frasa sesi ini (dibangun ulang dari e.results) */
+var interimTxt = '';   /* Teks interim untuk tampilan saja */
 
-/* Helper: gabungkan semua teks */
-function getDisplayTxt() { return pastSessions.join('') + curSession + interimTxt; }
-function getFinalTxt()   { return pastSessions.join('') + curSession; }
-function resetTxt()      { pastSessions = []; curSession = ''; interimTxt = ''; }
+var activeID   = null;
+var isIOS      = false;
+var hasSpeech  = false;
 
-/* Helper: hitung kata */
-function wordCount(str) {
-  return str.trim() ? str.trim().split(/\s+/).filter(function(w){ return w.length > 0; }).length : 0;
-}
+var KEY        = 'vl_v4';
+var API_KEY    = 'vl_apikey';
 
-/* ════════════════════════════════════════════════════════
+function getDisplay() { return allText + curPhrase + interimTxt; }
+function getFinal()   { return (allText + curPhrase).trim(); }
+function resetTxt()   { allText = ''; curPhrase = ''; interimTxt = ''; listening = false; }
+function wc(s)        { return s.trim() ? s.trim().split(/\s+/).filter(Boolean).length : 0; }
+
+/* ══════════════════════════════════════════════════════════
    INIT
-════════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function() {
   isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   hasSpeech = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 
   if (isIOS) {
-    show('aIOS');
+    on('aIOS');
     document.getElementById('cardIOS').style.display = 'block';
     document.getElementById('cardRec').style.display = 'none';
   } else if (!hasSpeech) {
-    show('aNoSupport');
+    on('aNoSup');
     document.getElementById('recBtn').disabled = true;
   } else {
     initRecog();
   }
 
+  /* Tampilkan isi API key tersimpan (disamarkan) */
+  var stored = localStorage.getItem(API_KEY);
+  if (stored) document.getElementById('apiKeyInput').value = stored;
+
   renderList();
   updateChip();
 });
 
-/* ════════════════════════════════════════════════════════
-   SPEECH RECOGNITION — VERSI DIPERBAIKI
-════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   SPEECH RECOGNITION
+══════════════════════════════════════════════════════════ */
 function initRecog() {
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   recog = new SR();
-  recog.lang            = 'id-ID';  /* Bahasa Indonesia */
-  recog.continuous      = true;
+  recog.lang            = 'id-ID';
+  recog.continuous      = false;   /* false = satu frasa per sesi → tidak ada akumulasi lintas sesi */
   recog.interimResults  = true;
   recog.maxAlternatives = 1;
 
-  /* ── onresult: BANGUN ULANG dari e.results, JANGAN += ──
-     Ini kunci perbaikan bug 27.000 kata.
-     e.results berisi SEMUA hasil sesi ini secara otoritatif.
-     Kita rebuild curSession dari awal setiap event. */
+  /*
+   * onresult: cek flag `listening` dulu.
+   * Jika false → event ini dari sesi lama → ABAIKAN.
+   * Bangun ulang curPhrase dari e.results (bukan +=).
+   */
   recog.onresult = function(e) {
-    curSession = '';
+    if (!listening) return;   /* ← KUNCI: tolak event basi dari sesi sebelumnya */
+
+    curPhrase  = '';
     interimTxt = '';
 
     for (var i = 0; i < e.results.length; i++) {
-      var res = e.results[i];
-      if (res.isFinal) {
-        var t = res[0].transcript.trim();
-        if (t.length > 0) {
-          curSession += t;
-          /* Tambah spasi di antara kalimat jika belum ada */
-          if (curSession.length > 0 && curSession[curSession.length - 1] !== ' ') {
-            curSession += ' ';
-          }
+      var r = e.results[i];
+      if (r.isFinal) {
+        var t = r[0].transcript.trim();
+        if (t) {
+          curPhrase += t;
+          if (curPhrase[curPhrase.length - 1] !== ' ') curPhrase += ' ';
         }
       } else {
-        /* Teks interim: ambil yang terakhir */
-        interimTxt = res[0].transcript;
+        interimTxt = r[0].transcript;
       }
     }
 
     drawT();
-    showSave();
   };
 
   recog.onerror = function(e) {
-    /* no-speech dan aborted itu normal, abaikan */
+    listening = false;
     if (e.error === 'no-speech' || e.error === 'aborted') return;
-    var msgs = {
-      'network':                '❌ Tidak ada internet. Speech Recognition butuh koneksi online.',
-      'not-allowed':            '❌ Izin mikrofon ditolak. Ketuk 🔒 di address bar → izinkan Mikrofon.',
-      'audio-capture':          '❌ Mikrofon tidak terdeteksi. Periksa pengaturan perangkat.',
-      'language-not-supported': '❌ Bahasa Indonesia tidak didukung. Gunakan Chrome atau Edge.'
+    var m = {
+      'network'                : '❌ Tidak ada internet. Speech Recognition perlu koneksi online.',
+      'not-allowed'            : '❌ Izin mikrofon ditolak. Ketuk 🔒 di address bar → Microphone → Allow.',
+      'audio-capture'          : '❌ Mikrofon tidak terdeteksi.',
+      'language-not-supported' : '❌ Bahasa Indonesia tidak tersedia. Gunakan Chrome / Edge.'
     };
-    showErr(msgs[e.error] || '❌ Error: ' + e.error);
+    errEl(m[e.error] || '❌ Error: ' + e.error);
     stopRec();
   };
 
-  /* ── onend: simpan sesi, restart jika masih merekam ──
-     PENTING: Simpan curSession ke pastSessions dulu
-     sebelum restart agar tidak kehilangan teks. */
+  /*
+   * onend: set listening=false SEGERA saat sesi berakhir.
+   * Commit curPhrase ke allText, lalu restart jika masih merekam.
+   * Restart mengeset listening=true HANYA tepat sebelum recog.start().
+   */
   recog.onend = function() {
-    if (isRec) {
-      /* Commit teks sesi ini ke histori */
-      if (curSession.trim().length > 0) {
-        pastSessions.push(curSession);
-        curSession = '';
-      }
-      interimTxt = '';
+    listening = false;   /* ← sesi ini resmi selesai */
 
-      /* Delay 250ms sebelum restart — hindari infinite loop cepat */
+    if (curPhrase.trim()) {
+      allText  += curPhrase;
+      curPhrase = '';
+    }
+    interimTxt = '';
+    drawT();
+
+    if (isRec) {
       setTimeout(function() {
-        if (isRec) {
-          try { recog.start(); } catch(x) { /* abaikan jika gagal */ }
-        }
+        if (!isRec) return;
+        listening = true;                             /* ← aktifkan untuk sesi baru */
+        try { recog.start(); }
+        catch(x) { listening = false; stopRec(); }   /* gagal start → berhenti */
       }, 250);
+    } else {
+      showSave();
     }
   };
 }
 
-/* ════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    RECORD CONTROLS
-════════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════════════ */
 function toggleRec() { isRec ? stopRec() : startRec(); }
 
 function startRec() {
   if (!hasSpeech || !recog) return;
-
-  /* Reset SEMUA teks saat mulai rekam baru */
   resetTxt();
   secs  = 0;
   isRec = true;
   hideErr();
 
-  var btn = document.getElementById('recBtn');
-  btn.classList.add('on');
-  btn.textContent = '⏹️';
+  document.getElementById('recBtn').classList.add('on');
+  document.getElementById('recBtn').textContent = '⏹️';
   ['r1','r2','r3'].forEach(function(id){ document.getElementById(id).classList.add('pulse'); });
   document.getElementById('timerEl').classList.add('on');
-  document.getElementById('hintEl').innerHTML = '🔴 Sedang merekam... ketuk ⏹️ untuk berhenti';
+  document.getElementById('hintEl').innerHTML = '🔴 Merekam... ketuk ⏹️ untuk berhenti';
+  document.getElementById('saveSec').classList.remove('on');
 
   timerRef = setInterval(function() {
     secs++;
-    var m = String(Math.floor(secs / 60)).padStart(2, '0');
-    var s = String(secs % 60).padStart(2, '0');
-    document.getElementById('timerEl').textContent = m + ':' + s;
-    if (secs >= 300) stopRec(); /* auto stop 5 menit */
+    document.getElementById('timerEl').textContent =
+      pad(Math.floor(secs/60)) + ':' + pad(secs%60);
+    if (secs >= 300) stopRec();
   }, 1000);
 
-  try { recog.start(); } catch(x) {}
+  listening = true;
+  try { recog.start(); }
+  catch(x) { listening = false; stopRec(); }
   drawT();
 }
 
 function stopRec() {
-  isRec = false;
-  if (recog) { try { recog.stop(); } catch(x) {} }
+  isRec     = false;
+  listening = false;
+  if (recog) { try { recog.stop(); } catch(x){} }
   clearInterval(timerRef);
 
-  /* Commit sesi terakhir sebelum berhenti */
-  if (curSession.trim().length > 0) {
-    pastSessions.push(curSession);
-    curSession = '';
-  }
+  if (curPhrase.trim()) { allText += curPhrase; curPhrase = ''; }
   interimTxt = '';
 
-  var btn = document.getElementById('recBtn');
-  btn.classList.remove('on');
-  btn.textContent = '🎤';
+  document.getElementById('recBtn').classList.remove('on');
+  document.getElementById('recBtn').textContent = '🎤';
   ['r1','r2','r3'].forEach(function(id){ document.getElementById(id).classList.remove('pulse'); });
   document.getElementById('timerEl').classList.remove('on');
-  document.getElementById('hintEl').innerHTML = 'Ketuk tombol untuk mulai merekam<br>Bicara dalam Bahasa Indonesia';
+  document.getElementById('hintEl').innerHTML = 'Ketuk untuk mulai merekam<br>Bicara dalam Bahasa Indonesia';
 
   drawT();
   showSave();
 }
 
-/* ════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    TRANSCRIPT UI
-════════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════════════ */
 function drawT() {
-  var box      = document.getElementById('tbox');
-  var wcEl     = document.getElementById('wcount');
-  var display  = getDisplayTxt();
+  var box = document.getElementById('tbox');
+  var wEl = document.getElementById('wcount');
+  var d   = getDisplay();
 
-  if (!display.trim()) {
+  if (!d.trim()) {
     box.innerHTML = '<span class="ph">Hasil rekaman akan muncul di sini saat kamu berbicara...</span>';
-    wcEl.innerHTML = '';
+    wEl.innerHTML = '';
     return;
   }
 
-  /* Teks final = hitam, interim = abu/ungu muda */
-  var finalPart  = esc(pastSessions.join('') + curSession);
-  var ipart      = interimTxt ? '<span class="itext">' + esc(interimTxt) + '</span>' : '';
-  box.innerHTML  = finalPart + ipart;
+  box.innerHTML = esc(allText + curPhrase) +
+    (interimTxt ? '<span class="itext">' + esc(interimTxt) + '</span>' : '');
 
-  /* Tampilkan jumlah kata */
-  var n = wordCount(getFinalTxt());
-  if (n > 0) {
-    wcEl.innerHTML = 'Jumlah kata: <span>' + n + ' kata</span>';
-  } else {
-    wcEl.innerHTML = '';
-  }
+  var n = wc(getFinal());
+  wEl.innerHTML = n > 0 ? 'Jumlah kata: <b>' + n + ' kata</b>' : '';
 }
 
 function showSave() {
-  var text = getFinalTxt().trim();
-  var sec  = document.getElementById('saveSec');
-  if (text && !isRec) {
-    sec.classList.add('on');
-    if (!document.getElementById('sTitle').value) {
-      document.getElementById('sTitle').value = 'Laporan ' + todayStr();
-    }
-    document.getElementById('sContent').value = text;
-  }
+  var t = getFinal();
+  if (!t) return;
+  document.getElementById('saveSec').classList.add('on');
+  if (!document.getElementById('sTitle').value)
+    document.getElementById('sTitle').value = 'Laporan ' + todayStr();
+  document.getElementById('sContent').value = t;
 }
 
 function clearAll() {
+  if (isRec) stopRec();
   resetTxt();
-  if (isRec) { stopRec(); }
   drawT();
   document.getElementById('saveSec').classList.remove('on');
   document.getElementById('sTitle').value   = '';
@@ -511,232 +584,281 @@ function clearAll() {
 }
 
 function copyT() {
-  var t = getDisplayTxt().trim();
+  var t = getDisplay().trim();
   if (!t) { toast('Belum ada teks'); return; }
-  cp(t);
-  toast('✅ Teks disalin (' + wordCount(t) + ' kata)');
+  cp(t); toast('✅ Disalin! (' + wc(t) + ' kata)');
 }
 
-/* ════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    iOS FALLBACK
-════════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════════════ */
 function useIOS() {
   var t = document.getElementById('iosTA').value.trim();
   if (!t) { toast('Isi teks terlebih dahulu'); return; }
   resetTxt();
-  pastSessions = [t + ' '];
+  allText = t + ' ';
   drawT();
-  document.getElementById('saveSec').classList.add('on');
-  if (!document.getElementById('sTitle').value) {
-    document.getElementById('sTitle').value = 'Laporan ' + todayStr();
-  }
-  document.getElementById('sContent').value = t;
-  toast('✅ Teks siap disimpan (' + wordCount(t) + ' kata)');
+  showSave();
+  toast('✅ Siap disimpan! (' + wc(t) + ' kata)');
 }
 
-/* ════════════════════════════════════════════════════════
-   SAVE REPORT
-════════════════════════════════════════════════════════ */
-function saveRep() {
-  var judul = document.getElementById('sTitle').value.trim();
-  var isi   = document.getElementById('sContent').value.trim();
-  if (!isi) { toast('Isi laporan tidak boleh kosong'); return; }
+/* ══════════════════════════════════════════════════════════
+   ✨ FITUR AI: UBAH TRANSKRIP → NOTULEN RAPAT
+══════════════════════════════════════════════════════════ */
+function buatNotulen() {
+  var transcript = document.getElementById('sContent').value.trim();
+  if (!transcript) { toast('Transkripsi kosong, rekam atau isi dulu'); return; }
 
-  var rec = {
-    id:      Date.now().toString(),
-    judul:   judul || 'Laporan ' + todayStr(),
-    isi:     isi,
-    tanggal: new Date().toISOString()
-  };
-
-  var data = load();
-  data.unshift(rec);
-  save(data);
-
-  clearAll();
-  updateChip();
-  renderList();
-  toast('✅ Laporan disimpan! (' + wordCount(isi) + ' kata)');
-  goTo('laporan');
-}
-
-/* ════════════════════════════════════════════════════════
-   STORAGE
-════════════════════════════════════════════════════════ */
-function load() {
-  try { return JSON.parse(localStorage.getItem(KEY) || '[]'); }
-  catch(_) { return []; }
-}
-function save(data) { localStorage.setItem(KEY, JSON.stringify(data)); }
-
-/* ════════════════════════════════════════════════════════
-   RENDER LIST
-════════════════════════════════════════════════════════ */
-function renderList() {
-  var q    = (document.getElementById('sInput') ? document.getElementById('sInput').value : '').toLowerCase();
-  var data = load().filter(function(d) {
-    return d.judul.toLowerCase().includes(q) || d.isi.toLowerCase().includes(q);
-  });
-  var el = document.getElementById('rList');
-
-  if (!data.length) {
-    el.innerHTML = '<div class="empty">' +
-      '<div class="empty-ico">📄</div>' +
-      '<div class="empty-msg">' + (q ? 'Tidak ada laporan yang cocok' : 'Belum ada laporan tersimpan') + '</div>' +
-      '<div class="empty-sub">' + (q ? 'Coba kata kunci lain' : 'Rekam suaramu dan simpan laporan pertama!') + '</div></div>';
+  var apiKey = localStorage.getItem(API_KEY) || '';
+  if (!apiKey) {
+    toast('⚠️ Atur API Key di ⚙️ pojok kanan atas');
+    openSettings();
     return;
   }
 
-  el.innerHTML = data.map(function(d) {
-    var n = wordCount(d.isi);
-    return '<div class="rcard" onclick="openM(\'' + d.id + '\')">' +
-      '<div class="rc-title">' + esc(d.judul) + '</div>' +
-      '<div class="rc-preview">' + esc(d.isi) + '</div>' +
-      '<div class="rc-meta"><span>' + fmtDate(d.tanggal) + '</span>' +
-      '<span class="wbadge">' + n + ' kata</span></div></div>';
+  /* Tampilkan loading */
+  document.getElementById('btnAI').style.display      = 'none';
+  document.getElementById('loadingAI').style.display  = 'block';
+
+  var prompt =
+    'Kamu adalah notulis profesional.\n\n' +
+    'TUGAS: Ubah transkrip rapat di bawah ini menjadi notulen rapat yang representatif, ' +
+    'profesional, terstruktur, jelas, dan mudah dipahami dalam Bahasa Indonesia.\n\n' +
+    'ATURAN KETAT — WAJIB DIPATUHI:\n' +
+    '1. HANYA gunakan informasi yang benar-benar ADA dalam transkrip\n' +
+    '2. JANGAN tambahkan, asumsikan, atau mengarang informasi yang tidak disebutkan\n' +
+    '3. Jika suatu bagian tidak ada dalam transkrip, tulis: "Tidak disebutkan dalam rapat"\n' +
+    '4. Pertahankan semua konteks, poin penting, dan nuansa pembicaraan\n' +
+    '5. Gunakan Bahasa Indonesia formal dan profesional\n\n' +
+    'FORMAT OUTPUT (gunakan persis format ini):\n\n' +
+    'NOTULEN RAPAT\n' +
+    '══════════════════════════════════════\n\n' +
+    'RINGKASAN:\n' +
+    '[2–4 kalimat menggambarkan keseluruhan isi rapat]\n\n' +
+    'POIN-POIN PEMBAHASAN:\n' +
+    '1. [poin pertama]\n' +
+    '2. [poin kedua]\n' +
+    '...\n\n' +
+    'KEPUTUSAN / KESIMPULAN:\n' +
+    '1. [keputusan pertama]\n' +
+    '(Jika tidak ada → tulis "Tidak disebutkan dalam rapat")\n\n' +
+    'TINDAK LANJUT / ACTION ITEMS:\n' +
+    '1. [tindak lanjut pertama]\n' +
+    '(Jika tidak ada → tulis "Tidak disebutkan dalam rapat")\n\n' +
+    '══════════════════════════════════════\n\n' +
+    'TRANSKRIP YANG AKAN DIFORMAT:\n' + transcript;
+
+  fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1500,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.error) throw new Error(data.error.message || 'API error');
+    if (!data.content || !data.content[0]) throw new Error('Respons tidak valid');
+
+    document.getElementById('sContent').value = data.content[0].text;
+    document.getElementById('sTitle').value   = 'Notulen Rapat ' + todayStr();
+    toast('✅ Notulen berhasil dibuat! Periksa dan simpan.');
+  })
+  .catch(function(err) {
+    var msg = err.message || 'Gagal menghubungi API';
+    if (msg.includes('401') || msg.includes('invalid') || msg.toLowerCase().includes('key')) {
+      toast('❌ API Key salah atau tidak valid. Cek di ⚙️');
+    } else if (msg.includes('network') || msg.includes('fetch') || msg.includes('Failed')) {
+      toast('❌ Tidak ada koneksi internet');
+    } else {
+      toast('❌ Error: ' + msg.substring(0, 60));
+    }
+  })
+  .finally(function() {
+    document.getElementById('btnAI').style.display     = '';
+    document.getElementById('loadingAI').style.display = 'none';
+  });
+}
+
+/* ══════════════════════════════════════════════════════════
+   API KEY SETTINGS
+══════════════════════════════════════════════════════════ */
+function openSettings() {
+  var stored = localStorage.getItem(API_KEY) || '';
+  document.getElementById('apiKeyInput').value = stored;
+  openOv('ovSettings');
+}
+
+function saveApiKey() {
+  var k = document.getElementById('apiKeyInput').value.trim();
+  if (k) { localStorage.setItem(API_KEY, k); toast('✅ API Key disimpan'); }
+  else   { localStorage.removeItem(API_KEY); toast('🗑️ API Key dihapus'); }
+  closeOv('ovSettings');
+}
+
+function clearApiKey() {
+  localStorage.removeItem(API_KEY);
+  document.getElementById('apiKeyInput').value = '';
+  toast('🗑️ API Key dihapus');
+  closeOv('ovSettings');
+}
+
+/* ══════════════════════════════════════════════════════════
+   SAVE REPORT
+══════════════════════════════════════════════════════════ */
+function saveRep() {
+  var judul = document.getElementById('sTitle').value.trim();
+  var isi   = document.getElementById('sContent').value.trim();
+  if (!isi) { toast('Isi laporan kosong'); return; }
+
+  var isNotulen = isi.indexOf('NOTULEN RAPAT') === 0;
+
+  var d = load();
+  d.unshift({
+    id:       Date.now().toString(),
+    judul:    judul || 'Laporan ' + todayStr(),
+    isi:      isi,
+    tanggal:  new Date().toISOString(),
+    notulen:  isNotulen
+  });
+  save(d);
+  clearAll();
+  updateChip();
+  renderList();
+  toast('✅ Disimpan! (' + wc(isi) + ' kata)');
+  goTo('laporan');
+}
+
+/* ══════════════════════════════════════════════════════════
+   STORAGE
+══════════════════════════════════════════════════════════ */
+function load() { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(_){ return []; } }
+function save(d){ localStorage.setItem(KEY, JSON.stringify(d)); }
+
+/* ══════════════════════════════════════════════════════════
+   RENDER LIST
+══════════════════════════════════════════════════════════ */
+function renderList() {
+  var q  = (document.getElementById('sInput') ? document.getElementById('sInput').value : '').toLowerCase();
+  var d  = load().filter(function(x){ return x.judul.toLowerCase().includes(q) || x.isi.toLowerCase().includes(q); });
+  var el = document.getElementById('rList');
+
+  if (!d.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-ico">📄</div>' +
+      '<div class="empty-msg">' + (q ? 'Tidak ada yang cocok' : 'Belum ada laporan') + '</div>' +
+      '<div class="empty-sub">' + (q ? 'Coba kata kunci lain' : 'Rekam dan simpan laporan pertama!') + '</div></div>';
+    return;
+  }
+
+  el.innerHTML = d.map(function(x) {
+    var badge = x.notulen ? '<div class="notulen-badge">✨ Notulen AI</div>' : '';
+    return '<div class="rcard" onclick="openM(\'' + x.id + '\')">' + badge +
+      '<div class="rc-title">' + esc(x.judul) + '</div>' +
+      '<div class="rc-preview">' + esc(x.isi) + '</div>' +
+      '<div class="rc-meta"><span>' + fmtDate(x.tanggal) + '</span>' +
+      '<span class="wbadge">' + wc(x.isi) + ' kata</span></div></div>';
   }).join('');
 }
 
-/* ════════════════════════════════════════════════════════
-   MODAL
-════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   MODAL LAPORAN
+══════════════════════════════════════════════════════════ */
 function openM(id) {
-  var d = load().find(function(x){ return x.id === id; });
-  if (!d) return;
+  var x = load().find(function(d){ return d.id === id; });
+  if (!x) return;
   activeID = id;
-  document.getElementById('mTitle').value   = d.judul;
-  document.getElementById('mDate').value    = fmtDate(d.tanggal);
-  document.getElementById('mContent').value = d.isi;
-  document.getElementById('overlay').classList.add('on');
-  document.body.style.overflow = 'hidden';
+  document.getElementById('mTitle').value   = x.judul;
+  document.getElementById('mDate').value    = fmtDate(x.tanggal);
+  document.getElementById('mContent').value = x.isi;
+  openOv('ovDetail');
 }
-
-function closeModal() {
-  document.getElementById('overlay').classList.remove('on');
-  document.body.style.overflow = '';
-  activeID = null;
-}
-
-function bgClose(e) { if (e.target === document.getElementById('overlay')) closeModal(); }
 
 function saveEdit() {
   if (!activeID) return;
-  var data = load();
-  var idx  = data.findIndex(function(x){ return x.id === activeID; });
-  if (idx < 0) return;
+  var d = load(); var i = d.findIndex(function(x){ return x.id === activeID; });
+  if (i < 0) return;
   var j = document.getElementById('mTitle').value.trim();
-  var i = document.getElementById('mContent').value.trim();
-  if (j) data[idx].judul = j;
-  if (i) data[idx].isi   = i;
-  save(data);
-  renderList();
-  toast('✅ Laporan diperbarui!');
+  var c = document.getElementById('mContent').value.trim();
+  if (j) d[i].judul = j;
+  if (c) { d[i].isi = c; d[i].notulen = c.indexOf('NOTULEN RAPAT') === 0; }
+  save(d); renderList(); toast('✅ Diperbarui!');
 }
 
 function copyM() {
-  var txt = buildExport(
-    document.getElementById('mTitle').value,
-    document.getElementById('mContent').value,
-    document.getElementById('mDate').value
-  );
-  cp(txt);
-  toast('✅ Disalin ke clipboard!');
+  cp(buildExp(document.getElementById('mTitle').value, document.getElementById('mContent').value, document.getElementById('mDate').value));
+  toast('✅ Disalin!');
 }
 
 function dlM() {
-  var judul = document.getElementById('mTitle').value;
-  var blob  = new Blob([buildExport(judul, document.getElementById('mContent').value, document.getElementById('mDate').value)], { type: 'text/plain;charset=utf-8' });
-  var url   = URL.createObjectURL(blob);
-  var a     = document.createElement('a');
-  a.href    = url;
-  a.download = (judul.replace(/[^\w\s\-]/g,'').trim() || 'laporan') + '.txt';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  toast('⬇️ File diunduh!');
+  var j  = document.getElementById('mTitle').value;
+  var b  = new Blob([buildExp(j, document.getElementById('mContent').value, document.getElementById('mDate').value)], {type:'text/plain;charset=utf-8'});
+  var u  = URL.createObjectURL(b); var a = document.createElement('a');
+  a.href = u; a.download = (j.replace(/[^\w\s\-]/g,'').trim() || 'laporan') + '.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(u);
+  toast('⬇️ Diunduh!');
 }
 
 function delM() {
   if (!confirm('Hapus laporan ini? Tidak bisa dibatalkan.')) return;
-  var data = load().filter(function(x){ return x.id !== activeID; });
-  save(data);
-  updateChip();
-  renderList();
-  closeModal();
-  toast('🗑️ Dihapus');
+  save(load().filter(function(x){ return x.id !== activeID; }));
+  updateChip(); renderList(); closeOv('ovDetail'); toast('🗑️ Dihapus');
 }
 
-/* ════════════════════════════════════════════════════════
-   NAV
-════════════════════════════════════════════════════════ */
-function goTo(page) {
-  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
-  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
-  document.getElementById('page-' + page).classList.add('active');
-  document.getElementById('tab-'  + page).classList.add('active');
-  if (page === 'laporan') renderList();
+/* ══════════════════════════════════════════════════════════
+   NAV & MODAL HELPERS
+══════════════════════════════════════════════════════════ */
+function goTo(p) {
+  document.querySelectorAll('.page').forEach(function(x){ x.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('active'); });
+  document.getElementById('page-' + p).classList.add('active');
+  document.getElementById('tab-'  + p).classList.add('active');
+  if (p === 'laporan') renderList();
 }
 
-/* ════════════════════════════════════════════════════════
+function openOv(id)  { document.getElementById(id).classList.add('on'); document.body.style.overflow='hidden'; }
+function closeOv(id) { document.getElementById(id).classList.remove('on'); document.body.style.overflow=''; }
+function bgClose(id, e) { if (e.target === document.getElementById(id)) closeOv(id); }
+
+/* ══════════════════════════════════════════════════════════
    UTILS
-════════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════════════ */
 function updateChip() {
-  var n = load().length;
-  var el = document.getElementById('chip');
+  var n = load().length; var el = document.getElementById('chip');
+  if (!el) return;
   el.textContent = n + ' laporan';
   n > 0 ? el.classList.add('on') : el.classList.remove('on');
 }
 
 function toast(msg) {
   var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('on');
-  setTimeout(function(){ t.classList.remove('on'); }, 2800);
+  t.textContent = msg; t.classList.add('on');
+  setTimeout(function(){ t.classList.remove('on'); }, 3000);
 }
 
-function cp(str) {
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(str).catch(function(){ legacyCp(str); });
-  } else {
-    legacyCp(str);
-  }
+function cp(s) {
+  if (navigator.clipboard) { navigator.clipboard.writeText(s).catch(function(){ legacyCp(s); }); }
+  else legacyCp(s);
 }
-function legacyCp(str) {
-  var ta = document.createElement('textarea');
-  ta.value = str;
-  ta.style.cssText = 'position:fixed;opacity:0';
-  document.body.appendChild(ta);
-  ta.select();
-  document.execCommand('copy');
-  document.body.removeChild(ta);
+function legacyCp(s) {
+  var t = document.createElement('textarea'); t.value=s; t.style.cssText='position:fixed;opacity:0';
+  document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t);
 }
 
-function buildExport(judul, isi, tgl) {
-  var line = Array(35).join('─');
-  return judul + '\n' + line + '\n\n' + isi + '\n\n' + line + '\nDibuat   : ' + tgl + '\nAplikasi : VoiceLapor';
-}
-
-function fmtDate(iso) {
-  return new Date(iso).toLocaleDateString('id-ID', {
-    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
-    hour: '2-digit', minute: '2-digit'
-  });
-}
-
-function todayStr() {
-  return new Date().toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' });
-}
-
-function esc(s) {
-  var d = document.createElement('div');
-  d.appendChild(document.createTextNode(String(s)));
-  return d.innerHTML;
-}
-
-function show(id)   { document.getElementById(id).classList.add('on'); }
-function showErr(m) { var e = document.getElementById('aErr'); e.innerHTML = m; e.classList.add('on'); }
-function hideErr()  { document.getElementById('aErr').classList.remove('on'); }
+function buildExp(j,c,tgl) { var l=Array(38).join('═'); return j+'\n'+l+'\n\n'+c+'\n\n'+l+'\nDibuat: '+tgl+'\nVoiceLapor v4'; }
+function fmtDate(iso) { return new Date(iso).toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+function todayStr() { return new Date().toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}); }
+function pad(n) { return String(n).padStart(2,'0'); }
+function esc(s) { var d=document.createElement('div'); d.appendChild(document.createTextNode(String(s))); return d.innerHTML; }
+function on(id)   { document.getElementById(id).classList.add('on'); }
+function errEl(m) { var e=document.getElementById('aErr'); e.innerHTML=m; e.classList.add('on'); }
+function hideErr(){ document.getElementById('aErr').classList.remove('on'); }
 </script>
 </body>
 </html>
